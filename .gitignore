@@ -1,3 +1,4 @@
 *.class
 *.ffs_db
-build/
+build\
+nbproject\
