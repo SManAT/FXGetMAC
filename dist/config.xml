@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <common>
+        <pingIP>10.0.10.4/16</pingIP>
+        <last>gugu</last>
+    </common>
+    <mysql>
+        <activate>false</activate>
+        <server>10.0.10.4/16</server>
+        <user>admintools</user>
+        <password>ENC(HUAsHYUrAzXbu9KUw0Snw+AdGZyapGXD)</password>
+        <database>admintools</database>
+        <table>macs</table>
+    </mysql>
+</config>

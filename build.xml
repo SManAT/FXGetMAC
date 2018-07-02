@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="FXGetMAC" default="default" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
+  <description>Builds, tests, and runs the project setHostname.</description>
+  <import file="nbproject/build-impl.xml"/>
+
+	<target name="-post-compile">
+    <property name="project.name" value="FXGetMAC"/>
+    <property name="dist.dir" value="dist/"/>
+        
+    <copy file="config.xml" tofile="${dist.dir}/config.xml" />
+    <copy file="getMAC.bat" tofile="${dist.dir}/getMAC.bat" />
+  </target>
+  
+	<target name="-post-jfx-deploy">
+		<delete file="${dist.dir}/FXGetMAC.jnlp" verbose="${verbose}"/>
+		<delete file="${dist.dir}/FXGetMAC.html" verbose="${verbose}"/>
+		<delete dir="${dist.dir}/web-files" verbose="${verbose}"/>
+  </target>
+ 
+</project>
