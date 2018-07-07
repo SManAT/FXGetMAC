@@ -7,8 +7,8 @@ Instead of starting the command shell and copy the Adress, or getting the
 LOG File from Dhcp Server, i'm using this tool.
 
 ## How to work with it
-1. All Configuration is made in config.xml.
-   You need an IP Adress to determine the active eth
+All Configuration is made in config.xml.
+You need an IP Adress to determine the active eth
 
 ### The Format of config.xml
 ```
