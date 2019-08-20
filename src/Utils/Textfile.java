@@ -47,9 +47,9 @@ public class Textfile {
    * @param mac
    * @param eingabe 
    */
-  public void writeFile(MAC mac, String eingabe) {
+  public void writeFile(MAC mac, String eingabe, String SQLCmd) {
     this.createCSVString(mac, eingabe);
-    this.createSQLString(mac, eingabe);
+    this.createSQLString(mac, eingabe, SQLCmd);
     try {
       Path path = Paths.get(filename);
       Files.write(path, lines,
@@ -95,27 +95,55 @@ public class Textfile {
     LinkedList<String> fileLines = ReadFile(filename,true);
     
     ArrayList<String> macs = mac.getMacs();
-    macs.forEach((item) -> { 
+    MACFinder macFinder = new MACFinder();
+    
+    boolean found = false;
+    for (String item : macs) {
       //Gibt es das Element schon?
-      int index = fileLines.indexOf(eingabe+";"+item);
-      if(index==-1){
+      found = false;
+      for (String testline : fileLines) {
+        String find = macFinder.find(testline);
+        if(find.compareToIgnoreCase(item)==0){
+          found = true;
+          break;
+        }
+      }
+      if(found==false){ 
         lines.add(eingabe+";"+item);
       }
-    });
+    }
   }
 
-  private void createSQLString(MAC mac, String eingabe) {
+  /**
+   * Parameter sind $_[Nr]
+   * @param mac
+   * @param eingabe 
+   */
+  private void createSQLString(MAC mac, String eingabe, String SQLCmd) {
     //mit Clear Comments
     LinkedList<String> fileLines = ReadFile(filenameSQL,true);
     
     ArrayList<String> macs = mac.getMacs();
-    macs.forEach((item) -> { 
+    MACFinder macFinder = new MACFinder();
+    
+    boolean found = false;
+    for (String item : macs) {
       //Gibt es das Element schon?
-      int index = fileLines.indexOf(eingabe+";"+item);
-      if(index==-1){
-        linesSQL.add("INSERT INTO mac VALUES (null,'"+eingabe+"','"+item+"',-1);");
+      found = false;
+      for (String testline : fileLines) {
+        String find = macFinder.find(testline);
+        if(find.compareToIgnoreCase(item)==0){
+          found = true;
+          textflowLogger.AppendError("Mac Adr. "+item+" gibt es schon! -kein Eintrag-");
+          break;
+        }
       }
-    });
+      if(found==false){
+        String cmd = SQLCmd.replace("$_1", "'"+eingabe+"'");
+        cmd = cmd.replace("$_2", "'"+item+"'");  
+        linesSQL.add(cmd);
+      }
+    }
   }
 
 

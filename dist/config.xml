@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <common>
-        <pingIP>10.0.10.4/16</pingIP>
-        <last>hostname</last>
+        <pingIP>192.168.1.1/24</pingIP>
+        <last>test</last>
     </common>
+    <mysql>
+        <cmd>INSERT INTO mac VALUES (null,$_1,$_2,-1);</cmd>
+    </mysql>
 </config>

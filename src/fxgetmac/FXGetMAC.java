@@ -26,6 +26,7 @@ public class FXGetMAC extends Application {
   final static String configFileName = "config.xml";
   private static MySQLWorker mysql;
   private static String last;
+  private static String SQLCmd;
   private Pane rootLayout;
   private MainSceneController controller;
   private static String pingIP;
@@ -52,26 +53,19 @@ public class FXGetMAC extends Application {
 
     Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
     FXSystem.StageSize(primaryStage,
-            primScreenBounds.getWidth() * 0.9,
-            primScreenBounds.getHeight() * 0.6
+            primScreenBounds.getWidth() * 0.33,
+            primScreenBounds.getHeight()
     );
-    FXSystem.CenterOnScreen(primaryStage);
+    primaryStage.setX(0);
+    primaryStage.setY(0);
 
     primaryStage.show();
        
-    controller.StartController(mysql, this.pingIP, this.last, configFileName);
+    controller.StartController(this.SQLCmd, this.pingIP, configFileName, this.last);
     //KeyPressed an Textflow binden
     scene.onKeyPressedProperty().bind(
       controller.getTextflowLogger().onKeyPressedProperty()
     );
-    
-    
-    
-    
-    CryptClass crypt = new CryptClass();
-    String encrypt = crypt.encrypt("HansMoser");
-    System.out.println(encrypt);
-    
   }
 
   @Override
@@ -98,16 +92,10 @@ public class FXGetMAC extends Application {
       String configFile = Paths.get(configFileName).toAbsolutePath().toString();
 
       XMLTool.LoadXMLFile(configFile, handle);
-      mysql = new MySQLWorker();
-      mysql.setActive(handle.getActivate());
-      mysql.setDatabase(handle.database);
-      mysql.setPassword(handle.password);
-      mysql.setServer(handle.server);
-      mysql.setTable(handle.table);
-      mysql.setUser(handle.user); 
+      //mysql = new MySQLWorker();
+      SQLCmd = handle.cmd;
       pingIP = handle.pingIP;
       last = handle.last;
-    
       
     } catch (Exception ex) {
       ex.printStackTrace();

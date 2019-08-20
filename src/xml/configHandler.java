@@ -23,6 +23,7 @@ public class configHandler implements ContentHandler {
   private boolean common;
   public String pingIP;
   public String last;
+  public String cmd;
     
   public configHandler() {
 
@@ -55,23 +56,8 @@ public class configHandler implements ContentHandler {
   public void endElement(String uri, String localName, String qName)
           throws SAXException {
     if(mysql==true){
-      if (localName.equals("activate")) {
-        activate = currentValue.trim();
-      }
-      if (localName.equals("server")) {
-        server = currentValue.trim();
-      }
-      if (localName.equals("user")) {
-        user = currentValue.trim();
-      }
-      if (localName.equals("password")) {
-        password = currentValue.trim();
-      }
-      if (localName.equals("database")) {
-        database = currentValue.trim();
-      }
-      if (localName.equals("table")) {
-        table = currentValue.trim();
+      if (localName.equals("cmd")) {
+        cmd = currentValue.trim();
       }
     }
     if(common==true){

@@ -45,9 +45,10 @@ public class MainSceneController implements Initializable {
 
   //Arbeitsschritte
   private int state = 0;
-  private String configFileName;
   private String pingIP;
   private Textfile textfile;
+  private String SQLCmd;
+  private String configFileName;
 
   /**
    * Initializes the controller class.
@@ -57,50 +58,13 @@ public class MainSceneController implements Initializable {
 
   }
 	
-	private void saveConfig() {
-    XMLTool xml = new XMLTool();
-    Element rootEle = xml.dom.createElement("config");
-    xml.dom.appendChild(rootEle);
-
-    Element sub = xml.dom.createElement("common");
-    rootEle.appendChild(sub);
-
-    Element e = xml.createNode("pingIP", pingIP);
-    sub.appendChild(e);
-    e = xml.createNode("last", last);
-    sub.appendChild(e);
-
-    sub = xml.dom.createElement("mysql");
-    rootEle.appendChild(sub);
-
-    if (mysql.isActive()) {
-      e = xml.createNode("activate", "true");
-    } else {
-      e = xml.createNode("activate", "false");
-    }
-    sub.appendChild(e);
-    e = xml.createNode("server", mysql.getServer());
-    sub.appendChild(e);
-    e = xml.createNode("user", mysql.getUser());
-    sub.appendChild(e);
-    e = xml.createNode("password", mysql.getCryptString());
-    sub.appendChild(e);
-    e = xml.createNode("database", mysql.getDatabase());
-    sub.appendChild(e);
-    e = xml.createNode("table", mysql.getTable());
-    sub.appendChild(e);
-
-    //ins File
-    xml.writeXML(configFileName);
-  }
-
-
-  public void StartController(MySQLWorker mysql, String pingIP, String last, String configFileName) {
-    this.mysql = mysql;
-    this.last = last;
+	public void StartController(String SQLCmd, String pingIP, String configFileName, String last) {
     this.pingIP = pingIP;
+    this.SQLCmd = SQLCmd;
     this.configFileName = configFileName;
-
+    this.last = last;
+    
+    
     textflowLogger = new TextFlowLogger(textflow, this.fontsize);
 
     /* Autoscroll */
@@ -114,6 +78,7 @@ public class MainSceneController implements Initializable {
     textflowLogger.AppendHighlight("MAC Tool, (c) Mag. Stefan Hagmann");
     textflowLogger.AppendHighlight("---------------------------------");
     textflowLogger.Append("Checking active eth's, Mac Adresses ...");
+    textflowLogger.Append("");
     textflowLogger.Append("Trying to PING " + pingIP);
 
     //MAC Adr laden über Ping IP
@@ -122,7 +87,8 @@ public class MainSceneController implements Initializable {
     if (mac.getLength() > 0) {
       textflowLogger.Append(mac.getMacListasString());
       textflowLogger.setColor(Color.YELLOW);
-      textflowLogger.Append("Letzte Eingabe mit TAB einfügen ...");
+      textflowLogger.Append("Letzte Eingabe mit <TAB> einfügen ...");
+      textflowLogger.Append("");
       textflowLogger.resetColor();
       
       textflowLogger.Append("Welcher Hostname soll zugeordnet werden? [" + last + "]:", TextFlowLogger.NOLINEBREAK);
@@ -185,17 +151,11 @@ public class MainSceneController implements Initializable {
    */
   private void HostnameEntered() {
     //in config sichern
-    saveConfig();
+    Save_config();
+    
     textfile = new Textfile(textflowLogger);
-    if (mysql.isActive()) {
-      textflowLogger.AppendHighlight("MySQL Database Abgleich: ");
-      textflowLogger.Append("Saving to MySQL..." + textfile.getFilename());
-      mysql.UpdateDB(mac, eingabe);
-    } else {
-      textflowLogger.AppendError("MySQL NOT active...");
-    }
     textflowLogger.Append("Saving to Textfile... " + textfile.getFilename()+", "+textfile.getSQLFilename());
-    textfile.writeFile(mac, eingabe);
+    textfile.writeFile(mac, eingabe, SQLCmd);
     textflowLogger.AppendInfo("FERTIG", "Programm kann nun geschlossen werden");
 
     BlockingQueue queue = new ArrayBlockingQueue(2);
@@ -219,6 +179,31 @@ public class MainSceneController implements Initializable {
 		new Thread(waitNClose).start();
 		
 		
+  }
+
+  private void Save_config() {
+    XMLTool xml = new XMLTool();
+
+    //create the root element <Books>
+    Element rootEle = xml.dom.createElement("config");
+    xml.dom.appendChild(rootEle);
+    
+    Element child = xml.dom.createElement("common");
+    rootEle.appendChild(child);
+    
+    Element item = xml.createNode("pingIP", this.pingIP);
+    child.appendChild(item);
+    item = xml.createNode("last", this.last);
+    child.appendChild(item);
+
+    
+    child = xml.dom.createElement("mysql");
+    rootEle.appendChild(child);
+
+    item = xml.createNode("cmd", this.SQLCmd);
+    child.appendChild(item);
+    //ins File
+    xml.writeXML(configFileName);
   }
 
   
