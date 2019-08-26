@@ -156,6 +156,7 @@ public class MainSceneController implements Initializable {
     textfile = new Textfile(textflowLogger);
     textflowLogger.Append("Saving to Textfile... " + textfile.getFilename()+", "+textfile.getSQLFilename());
     textfile.writeFile(mac, eingabe, SQLCmd);
+    
     textflowLogger.AppendInfo("FERTIG", "Programm kann nun geschlossen werden");
 
     BlockingQueue queue = new ArrayBlockingQueue(2);
@@ -164,11 +165,11 @@ public class MainSceneController implements Initializable {
       queue.put("notepad.exe");
     } catch (InterruptedException ex) {}
 
-    ExecEditor execEditor = new ExecEditor(queue, textfile.getFilename());
-    new Thread(execEditor).start();
+    //ExecEditor execEditor = new ExecEditor(queue, textfile.getFilename());
+    //new Thread(execEditor).start();
     
-    execEditor = new ExecEditor(queue, textfile.getSQLFilename());
-    new Thread(execEditor).start();
+    //ExecEditor execEditor = new ExecEditor(queue, textfile.getSQLFilename());
+    //new Thread(execEditor).start();
     
 		
 		

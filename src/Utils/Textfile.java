@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Stefan
  */
 public class Textfile {
+  private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Textfile.class);
   String filename;
   ArrayList<String> lines = new ArrayList<>();
   ArrayList<String> linesSQL = new ArrayList<>();
@@ -48,9 +50,9 @@ public class Textfile {
    * @param eingabe 
    */
   public void writeFile(MAC mac, String eingabe, String SQLCmd) {
-    this.createCSVString(mac, eingabe);
-    this.createSQLString(mac, eingabe, SQLCmd);
     try {
+      this.createCSVString(mac, eingabe);
+      this.createSQLString(mac, eingabe, SQLCmd);
       Path path = Paths.get(filename);
       Files.write(path, lines,
               StandardOpenOption.CREATE, StandardOpenOption.APPEND);
@@ -59,6 +61,8 @@ public class Textfile {
               StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     } catch (IOException ex) {
       textflowLogger.AppendError("Kann nicht Datei "+filename+" erzeugen!");
+      logger.error("Kann nicht Datei "+filename+" erzeugen!");
+      logger.error(ex.toString());
     }
   }
   
@@ -80,8 +84,11 @@ public class Textfile {
       }
       rd.close();
     } catch (FileNotFoundException ex) {
-      System.out.println("Datei " + filename + " nicht gefunden");
+      logger.error("Datei " + filename + " nicht gefunden");
+      return erg;
     } catch (IOException ex) {
+      logger.error(ex.toString());
+      return erg;
     }
     return erg;
   }
@@ -135,6 +142,7 @@ public class Textfile {
         if(find.compareToIgnoreCase(item)==0){
           found = true;
           textflowLogger.AppendError("Mac Adr. "+item+" gibt es schon! -kein Eintrag-");
+          logger.error("Mac Adr. "+item+" gibt es schon! -kein Eintrag-");
           break;
         }
       }

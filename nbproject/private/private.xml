@@ -4,13 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/src/Scenes/MainSceneController.java</file>
-            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/config.xml</file>
-            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/launch4j.xml</file>
-            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/getMAC.bat</file>
-            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/src/fxgetmac/FXGetMAC.java</file>
-            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/nbproject/jfx-impl.xml</file>
+            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/src/Utils/MACFinder.java</file>
             <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/src/Utils/Textfile.java</file>
-            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/build.xml</file>
+            <file>file:/C:/Users/Stefan/OneDrive%20-%20BRG%20Frauengasse/Dokumente/MyWorkStuff/FXGetMAC/src/log4j.properties</file>
         </group>
     </open-files>
 </project-private>

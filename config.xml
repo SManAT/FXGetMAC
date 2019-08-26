@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <common>
-        <pingIP>192.168.1.1/24</pingIP>
+        <pingIP>10.0.10.4/24</pingIP>
         <last>test</last>
     </common>
     <mysql>
